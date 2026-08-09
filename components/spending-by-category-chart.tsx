@@ -18,6 +18,11 @@ import type { CategoryRow, ExpenseRow } from "@/lib/finance";
 
 type ViewMode = "month" | "year";
 
+function monthLabelFromKey(monthKey: string, pattern: string) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return format(new Date(year, month - 1, 1), pattern);
+}
+
 export function SpendingByCategoryChart({
   expenses,
   categories,
@@ -35,7 +40,7 @@ export function SpendingByCategoryChart({
     () =>
       Array.from(new Set(expenses.map((expense) => expense.monthKey)))
         .sort((a, b) => b.localeCompare(a))
-        .map((key) => ({ key, label: format(new Date(`${key}-01`), "MMMM yyyy") })),
+        .map((key) => ({ key, label: monthLabelFromKey(key, "MMMM yyyy") })),
     [expenses]
   );
 
@@ -67,7 +72,7 @@ export function SpendingByCategoryChart({
     return monthsInYear.map((option) => {
       const entry: Record<string, string | number> = {
         key: option.key,
-        label: format(new Date(`${option.key}-01`), "MMM"),
+        label: monthLabelFromKey(option.key, "MMM"),
         total: 0,
       };
       for (const category of categories) {
@@ -89,7 +94,7 @@ export function SpendingByCategoryChart({
     [yearly]
   );
 
-  const yearLabel = format(new Date(`${year}-01-01`), "yyyy");
+  const yearLabel = year;
 
   return (
     <Card>

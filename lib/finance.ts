@@ -1,4 +1,4 @@
-import { format, parseISO, startOfMonth } from "date-fns";
+import { format } from "date-fns";
 
 export type PaidBy = "Harrison" | "Fernanda";
 export type SplitMode = "shared" | "personal";
@@ -104,16 +104,22 @@ export function formatCurrency(amount: number) {
   }).format(amount);
 }
 
+function localDateFromKey(monthKey: string) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Date(year, month - 1, 1);
+}
+
 export function formatDate(value: string) {
-  return format(parseISO(value), "dd MMM");
+  const [year, month, day] = value.split("-").map(Number);
+  return format(new Date(year, month - 1, day), "dd MMM");
 }
 
 function monthLabel(monthKey: string) {
-  return format(parseISO(`${monthKey}-01`), "MMMM yyyy");
+  return format(localDateFromKey(monthKey), "MMMM yyyy");
 }
 
 function monthKeyFromDate(date: string) {
-  return format(startOfMonth(parseISO(date)), "yyyy-MM");
+  return date.slice(0, 7);
 }
 
 function monthlyEquivalent(amount: number, frequency: FixedExpenseRow["frequency"]) {
@@ -237,4 +243,8 @@ export function computeDashboardSummary(
 
 export function toMonthKey(date: string) {
   return monthKeyFromDate(date);
+}
+
+export function currentMonthKey() {
+  return format(new Date(), "yyyy-MM");
 }

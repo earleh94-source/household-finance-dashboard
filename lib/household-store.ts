@@ -1,6 +1,7 @@
 import { mockCategories, mockExpenses, mockFixedExpenses, mockOffsetContributions } from "@/lib/mock-data";
 import {
   calculateSettlement,
+  currentMonthKey,
   toMonthKey,
   type CategoryRow,
   type ExpenseRow,
@@ -482,7 +483,7 @@ export async function saveMonth(input: MonthInput) {
 }
 
 export function summarizeSnapshot(snapshot: HouseholdSnapshot) {
-  const monthKey = snapshot.expenses[0]?.monthKey ?? toMonthKey(new Date().toISOString());
+  const monthKey = snapshot.expenses[0]?.monthKey ?? currentMonthKey();
   const settlement = calculateSettlement(snapshot.expenses, monthKey);
   return { monthKey, settlement };
 }

@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   calculateSettlement,
+  currentMonthKey,
   formatCurrency,
   toMonthKey,
   type CategoryRow,
@@ -81,7 +82,7 @@ export function MonthlyExpenseView({ initialExpenses, initialCategories, initial
     }));
   }, [monthsFromExpenses, months]);
 
-  const [selectedMonth, setSelectedMonth] = useState<string>(() => knownMonths[0]?.key ?? toMonthKey(new Date().toISOString()));
+  const [selectedMonth, setSelectedMonth] = useState<string>(() => knownMonths[0]?.key ?? currentMonthKey());
 
   const selectedSettled = knownMonths.find((month) => month.key === selectedMonth)?.settled ?? false;
 
