@@ -72,7 +72,9 @@ type DbFixedExpenseRow = {
   id: string;
   name: string;
   amount: number | string;
+  category: string;
   frequency: FixedExpenseRow["frequency"];
+  paid_by: FixedExpenseRow["paidBy"] | null;
 };
 
 type DbOffsetContributionRow = {
@@ -174,7 +176,7 @@ function toFixedExpenseRow(row: DbFixedExpenseRow): FixedExpenseRow {
     name: row.name,
     amount: Number(row.amount),
     frequency: row.frequency,
-    paidBy: "Joint",
+    paidBy: row.paid_by ?? "Joint",
   };
 }
 
@@ -206,7 +208,7 @@ async function readRemoteSnapshot(): Promise<HouseholdSnapshot | null> {
       .order("date", { ascending: false }),
     supabase
       .from("fixed_expenses")
-      .select("id,name,amount,frequency,active")
+      .select("id,name,amount,category,frequency,active,paid_by")
       .eq("active", true)
       .order("created_at", { ascending: true }),
     supabase
@@ -389,12 +391,20 @@ export async function saveFixedExpense(input: FixedExpenseInput) {
     return cloneSnapshot(memoryStore);
   }
 
+  let category = "Other";
+  if (input.id) {
+    const { data } = await supabase.from("fixed_expenses").select("category").eq("id", input.id).maybeSingle();
+    category = data?.category ?? "Other";
+  }
+
   const { error } = await supabase.from("fixed_expenses").upsert(
     {
       id: input.id ?? generateId("fix"),
       name: input.name.trim(),
       amount: input.amount,
+      category,
       frequency: input.frequency,
+      paid_by: input.paidBy,
       active: true,
     },
     { onConflict: "id" }

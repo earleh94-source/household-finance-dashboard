@@ -33,8 +33,10 @@ create table if not exists public.fixed_expenses (
   household_id text not null default 'demo-household',
   name text not null,
   amount numeric(12,2) not null check (amount >= 0),
+  category text not null default 'Other',
   frequency text not null check (frequency in ('monthly', 'quarterly', 'yearly')),
-  paid_by text not null check (paid_by in ('Harrison', 'Fernanda', 'Joint')),
+  paid_by text not null default 'Joint' check (paid_by in ('Harrison', 'Fernanda', 'Joint')),
+  active boolean not null default true,
   created_at timestamptz not null default now()
 );
 
