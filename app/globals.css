@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: "Aptos", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Aptos Display", "Segoe UI Semibold", "Segoe UI", system-ui, sans-serif;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --primary: 173 80% 28%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 173 65% 93%;
+  --accent-foreground: 173 80% 18%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 173 80% 28%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body), sans-serif;
+  color: rgb(15 23 42);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.28), transparent 45%),
+    radial-gradient(circle at 85% 0%, rgba(59, 130, 246, 0.22), transparent 40%),
+    linear-gradient(180deg, #e9e4fb 0%, #d8d4f4 100%);
+}
+
+.dark body {
+  color: rgb(226 232 240);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.3), transparent 45%),
+    radial-gradient(circle at 85% 0%, rgba(59, 130, 246, 0.24), transparent 40%),
+    linear-gradient(180deg, #171430 0%, #0e0c1e 100%);
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.25);
+  color: rgb(15 23 42);
+}
+
+.dark ::selection {
+  color: rgb(226 232 240);
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+  font-variant-numeric: tabular-nums;
+}
