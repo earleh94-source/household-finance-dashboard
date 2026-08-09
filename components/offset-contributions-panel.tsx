@@ -126,7 +126,7 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid min-w-0 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-4 dark:border-slate-700 dark:bg-slate-800/40">
+        <div className="grid min-w-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-4 dark:border-slate-700 dark:bg-slate-800/40">
           <Input
             type="month"
             value={draft.month}
