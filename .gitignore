@@ -10,3 +10,6 @@ dist
 dev-server.log
 tsconfig.tsbuildinfo
 
+
+.vercel
+.env*
