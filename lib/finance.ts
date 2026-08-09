@@ -114,6 +114,11 @@ export function formatDate(value: string) {
   return format(new Date(year, month - 1, day), "dd MMM");
 }
 
+export function formatMonth(value: string) {
+  const [year, month] = value.slice(0, 7).split("-").map(Number);
+  return format(new Date(year, month - 1, 1), "MMMM yyyy");
+}
+
 function monthLabel(monthKey: string) {
   return format(localDateFromKey(monthKey), "MMMM yyyy");
 }

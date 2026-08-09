@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatCurrency, formatDate, type OffsetContributionRow } from "@/lib/finance";
+import { formatCurrency, formatMonth, currentMonthKey, type OffsetContributionRow } from "@/lib/finance";
 import type { HouseholdSnapshot } from "@/lib/household-store";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 
@@ -17,14 +17,14 @@ type Props = {
 
 type ContributionDraft = {
   id?: string;
-  date: string;
+  month: string;
   person: OffsetContributionRow["person"];
   description: string;
   amount: string;
 };
 
 const emptyDraft: ContributionDraft = {
-  date: "2026-08-01",
+  month: currentMonthKey(),
   person: "Harrison",
   description: "",
   amount: "",
@@ -70,7 +70,7 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
     setEditingId(item.id);
     setDraft({
       id: item.id,
-      date: item.date,
+      month: item.date.slice(0, 7),
       person: item.person,
       description: item.description,
       amount: String(item.amount),
@@ -90,7 +90,7 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
         action: "saveOffsetContribution",
         payload: {
           id: draft.id,
-          date: draft.date,
+          date: `${draft.month}-01`,
           person: draft.person,
           description: draft.description,
           amount: Number(draft.amount),
@@ -126,11 +126,11 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-4 dark:border-slate-700 dark:bg-slate-800/40">
+        <div className="grid min-w-0 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-4 dark:border-slate-700 dark:bg-slate-800/40">
           <Input
-            type="date"
-            value={draft.date}
-            onChange={(event) => setDraft({ ...draft, date: event.target.value })}
+            type="month"
+            value={draft.month}
+            onChange={(event) => setDraft({ ...draft, month: event.target.value })}
           />
           <Select
             value={draft.person}
@@ -168,7 +168,7 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Date</TableHead>
+              <TableHead>Month</TableHead>
               <TableHead>Person</TableHead>
               <TableHead>Description</TableHead>
               <TableHead className="text-right">Amount</TableHead>
@@ -178,7 +178,7 @@ export function OffsetContributionsPanel({ contributions, onChange }: Props) {
           <TableBody>
             {running.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{formatDate(item.date)}</TableCell>
+                <TableCell>{formatMonth(item.date)}</TableCell>
                 <TableCell className="text-slate-500 dark:text-slate-400">{item.person}</TableCell>
                 <TableCell>
                   <div className="font-medium text-slate-900 dark:text-slate-100">{item.description}</div>
