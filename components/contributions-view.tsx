@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { OffsetContributionsPanel } from "@/components/offset-contributions-panel";
+import { StartingHomeContributionsCard } from "@/components/starting-home-contributions-card";
 import { formatCurrency, type OffsetContributionRow } from "@/lib/finance";
 import { Coins, User } from "lucide-react";
 
@@ -65,6 +66,8 @@ export function ContributionsView({ contributions }: Props) {
       </div>
 
       <OffsetContributionsPanel contributions={liveContributions} onChange={setLiveContributions} />
+
+      <StartingHomeContributionsCard />
     </div>
   );
 }

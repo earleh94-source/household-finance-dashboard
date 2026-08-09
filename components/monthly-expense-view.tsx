@@ -90,6 +90,11 @@ export function MonthlyExpenseView({ initialExpenses, initialCategories, initial
     [expenses, selectedMonth]
   );
 
+  const monthTotal = useMemo(
+    () => monthExpenses.reduce((sum, expense) => sum + expense.amount, 0),
+    [monthExpenses]
+  );
+
   const sharedExpenses = useMemo(
     () => monthExpenses.filter((expense) => expense.splitMode === "shared"),
     [monthExpenses]
@@ -434,7 +439,17 @@ export function MonthlyExpenseView({ initialExpenses, initialCategories, initial
                     No expenses yet for {monthLabel(selectedMonth)}. Add your first one above.
                   </TableCell>
                 </TableRow>
-              ) : null}
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} className="font-semibold text-slate-900 dark:text-slate-100">
+                    Total
+                  </TableCell>
+                  <TableCell className="text-right font-semibold text-slate-900 dark:text-slate-100">
+                    {formatCurrency(monthTotal)}
+                  </TableCell>
+                  <TableCell />
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </CardContent>
